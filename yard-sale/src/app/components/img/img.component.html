@@ -1,0 +1,5 @@
+<p>img works!</p>
+<img width="300px" [src]="img" alt="yuna" *ngIf="img; else elseImg">
+<ng-template #elseImg>
+  <img width="300px" src="https://c.tenor.com/V92SsXCUxBAAAAAC/nmixx-jinni.gif" alt="No image">
+</ng-template>
