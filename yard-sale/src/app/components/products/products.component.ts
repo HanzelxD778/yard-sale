@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Product } from '../../models/product.model'
 
+import { StoreService } from '../../services/store.service'
+import { ProductService } from '../../services/product.service'
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -9,108 +12,29 @@ import { Product } from '../../models/product.model'
 })
 export class ProductsComponent implements OnInit {
 
-  products: Product[] = [
-    {
-      id: '1',
-      name: 'Product 1',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '2',
-      name: 'Product 2',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '3',
-      name: 'Product 3',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '4',
-      name: 'Product 4',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '5',
-      name: 'Product 5',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '6',
-      name: 'Product 6',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '7',
-      name: 'Product 7',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '8',
-      name: 'Product 8',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '1',
-      name: 'Product 1',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '2',
-      name: 'Product 2',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '3',
-      name: 'Product 3',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '4',
-      name: 'Product 4',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '5',
-      name: 'Product 5',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '6',
-      name: 'Product 6',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '7',
-      name: 'Product 7',
-      image: 'https://picsum.photos/200',
-      price: 20
-    },
-    {
-      id: '8',
-      name: 'Product 8',
-      image: 'https://picsum.photos/200',
-      price: 20
-    }
-  ];
+  myShoppingCart: Product[] = [];
 
-  constructor() { }
+  total = 0;
+
+  products: Product[] = [];
+
+  constructor(
+    private storeService: StoreService,
+    private productsService: ProductService
+  ) {
+    this.myShoppingCart = this.storeService.getShoppingCart();
+  }
 
   ngOnInit(): void {
+    this.productsService.getAllProducts()
+    .subscribe(data => {
+      this.products = data;
+    });
+  }
+
+  onAddToShoppingCart(product: Product) {
+    this.storeService.addProduct(product);
+    this.total = this.storeService.getTotal();
   }
 
 }
